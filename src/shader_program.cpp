@@ -88,29 +88,7 @@ auto ShaderProgram::link() const -> void
     }
 }
 
-auto ShaderProgram::print_all() const -> void
+auto ShaderProgram::use() const -> void
 {
-    for (const auto& s : shaders)
-    {
-        switch(s.first)
-        {
-            case GL_FRAGMENT_SHADER:
-                std::cerr << "Source from fragment shader:" << std::endl;
-                break;
-            case GL_VERTEX_SHADER:
-                std::cerr << "Source from vertex shader:" << std::endl;
-                break;
-            case GL_GEOMETRY_SHADER:
-                std::cerr << "Source from geometry shader:" << std::endl;
-                break;
-            case GL_COMPUTE_SHADER:
-                std::cerr << "Source from compute shader:" << std::endl;
-                break;
-            default:
-                std::cerr << "Source from unknown shader" << std::endl;
-        }
-
-        std::cout << s.second.source << std::endl;
-    }
-
+   glUseProgram(id); 
 }

@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "shader_program.h"
 #include "shader.h"
 
 enum VAO_IDs {Triangles, NumVAOs};
@@ -12,6 +13,7 @@ GLuint VAOs[NumVAOs];
 GLuint Buffers[NumBuffers];
 
 const GLuint NumVertices = 6;
+
 
 void init(void)
 {
@@ -29,7 +31,16 @@ void init(void)
     // Alloc video memory and initialize it with vertices
     glNamedBufferStorage(Buffers[ArrayBuffer], sizeof(vertices), vertices, 0);
 
-    
+    auto program = ShaderProgram();
+    auto vertex = Shader(GL_VERTEX_SHADER, "./src/vert.glsl");
+    auto fragment = Shader(GL_FRAGMENT_SHADER, "./src/frag.glsl");
+
+    program.set(vertex);
+    program.set(fragment);
+
+    program.compile();
+    program.link();
+    //program.log();
 }
 
 int main(void)
@@ -39,9 +50,11 @@ int main(void)
     glfwMakeContextCurrent(window);
     if (gl3wInit())
     {
-        std::cout << "gl3wInit() failed" << std::endl;
+        std::cerr << "gl3wInit() failed" << std::endl;
     
     }
+
+    init();
 
     while (!glfwWindowShouldClose(window))
     {

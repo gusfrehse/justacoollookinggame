@@ -3,34 +3,65 @@
 #include <iostream>
 #include <GL/gl3w.h>
 
-auto ShaderProgram::set(GLenum t, Shader s) -> void
+ShaderProgram::ShaderProgram()
+    : id(glCreateProgram())
+{}
+
+auto ShaderProgram::set(Shader &s) -> void
 {
-    shaders.insert_or_assign(t, s);
+    shaders.insert_or_assign(s.type, s);
 }
 
 auto ShaderProgram::log() const -> void
 {
+    std::cerr << "SHADER PROGRAM LOG:" << std::endl;
     for (const auto& s : shaders)
     {
-        switch(s.first)
+        if (glIsShader(s.second.id))
         {
-            case GL_FRAGMENT_SHADER:
-                std::cerr << "Log from fragment shader:" << std::endl;
-            case GL_VERTEX_SHADER:
-                std::cerr << "Log from vertex shader:" << std::endl;
-            case GL_GEOMETRY_SHADER:
-                std::cerr << "Log from geometry shader:" << std::endl;
-            case GL_COMPUTE_SHADER:
-                std::cerr << "Log from compute shader:" << std::endl;
-        }
+            switch(s.first)
+            {
+                case GL_FRAGMENT_SHADER:
+                    std::cerr << "Fragment shader:" << std::endl;
+                    break;
+                case GL_VERTEX_SHADER:
+                    std::cerr << "Vertex shader:" << std::endl;
+                    break;
+                case GL_GEOMETRY_SHADER:
+                    std::cerr << "Geometry shader:" << std::endl;
+                    break;
+                case GL_COMPUTE_SHADER:
+                    std::cerr << "Compute shader:" << std::endl;
+                    break;
+                default:
+                    std::cerr << "Unknown shader:" << std::endl;
+            }
 
-        s.second.log();
+            if (!s.second.ready)
+            {
+            
+                std::cerr << "-> is not ready." << std::endl;
+            }
+            std::cerr << s.second.source << std::endl;
+        }
+        else
+        {
+            std::cerr << "Not a shader" << std::endl;
+        }
+    }
+
+    if (glIsProgram(id))
+    {
+    }
+    else
+    {
+        std::cerr << "Not a valid shader program" << std::endl;
     }
 }
 
-auto ShaderProgram::compile() const -> void
+auto ShaderProgram::compile() -> void
 {
-    for (const auto& s : shaders)
+    for (auto&& s : shaders)
     {
         s.second.compile();
     }
@@ -38,7 +69,48 @@ auto ShaderProgram::compile() const -> void
 
 auto ShaderProgram::link() const -> void
 {
-    for (const auto& s: shaders)
+    for (const auto& s : shaders)
     {
+        glAttachShader(id, s.second.id);
     }
+
+    glLinkProgram(id);
+
+    GLint linked;
+    glGetProgramiv(id, GL_LINK_STATUS, &linked);
+    if (!linked) {
+        GLsizei len;
+        glGetProgramiv(id, GL_INFO_LOG_LENGTH, &len);
+
+        GLchar* log = new GLchar[len+1];
+        glGetProgramInfoLog(id, len, &len, log);
+        std::cerr << "Shader linking failed:\n" << log << std::endl;
+    }
+}
+
+auto ShaderProgram::print_all() const -> void
+{
+    for (const auto& s : shaders)
+    {
+        switch(s.first)
+        {
+            case GL_FRAGMENT_SHADER:
+                std::cerr << "Source from fragment shader:" << std::endl;
+                break;
+            case GL_VERTEX_SHADER:
+                std::cerr << "Source from vertex shader:" << std::endl;
+                break;
+            case GL_GEOMETRY_SHADER:
+                std::cerr << "Source from geometry shader:" << std::endl;
+                break;
+            case GL_COMPUTE_SHADER:
+                std::cerr << "Source from compute shader:" << std::endl;
+                break;
+            default:
+                std::cerr << "Source from unknown shader" << std::endl;
+        }
+
+        std::cout << s.second.source << std::endl;
+    }
+
 }

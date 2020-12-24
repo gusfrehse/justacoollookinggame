@@ -10,10 +10,12 @@ class ShaderProgram
     std::unordered_map<GLenum, Shader> shaders;
 
 public:
-    auto set(GLenum t, Shader s) -> void;
-    auto compile() const -> void;
-    auto link() const -> void;
+    ShaderProgram();
+    auto set(Shader &s) -> void;
     auto log() const -> void;
+    auto compile() -> void;
+    auto link() const -> void;
     auto use() const -> void;
+    auto print_all() const -> void;
 };
 #endif

@@ -5,41 +5,55 @@
 #include <iostream>
 
 Shader::Shader(GLenum t, const char* path) :
-    type(t), id(glCreateShader(type))
+    type(t), id(glCreateShader(t))
 {
-    std::ostringstream ss;
-
-    std::ifstream file(path);
-    if (!file.good())
+    FILE* shaderSource;
+    shaderSource = fopen(path, "r");
+    if (!shaderSource)
     {
-        std::cerr << "Could not open file: " << path << std::endl;
+        std::cerr << "Could not open " << path << " shader." << std::endl;
+        source = NULL;
     }
     else
     {
-        ss << file.rdbuf();
-        source = ss.str();
-    } 
+        fseek(shaderSource, 0, SEEK_END);
+        int len = ftell(shaderSource);
+        fseek(shaderSource, 0, SEEK_SET);
+
+        source = new GLchar[len + 1];
+        source[len] = 0;
+
+        fread(source, 1, len, shaderSource);
+        fclose(shaderSource);
+    }
 }
 
-auto Shader::compile() const -> void
+auto Shader::compile() -> void
 {
-    const char *c_str = source.c_str();
-    glShaderSource(id, 1, &c_str, NULL);
+    glShaderSource(id, 1, &source, NULL);
     glCompileShader(id);
-}
 
-auto Shader::log() const -> void
-{
     GLint compiled;
     glGetShaderiv(id, GL_COMPILE_STATUS, &compiled);
     if (!compiled)
     {
-        GLsizei len;
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
+        std::cerr << "Compile shader error:\n" << std::endl;
+        if (!glIsShader(id))
+        {
+            std::cerr << "is not Shader!" << std::endl;
+        }
+        ready = false;
+        GLint len = 0;
+        GLint maxLen = 0;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLen);
 
-        auto log = new GLchar[len + 1];
-        glGetShaderInfoLog(id, len, &len, log);
-        std::cerr << "Compile shader error:\n" << log << std::endl;
+        GLchar* log = new GLchar[maxLen + 1];
+        glGetShaderInfoLog(id, maxLen, &len, log);
+        std::cerr << log << std::endl;
         delete [] log;
+    }
+    else
+    {
+        ready = true;
     }
 }

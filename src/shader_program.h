@@ -16,6 +16,5 @@ public:
     auto compile() -> void;
     auto link() const -> void;
     auto use() const -> void;
-    auto print_all() const -> void;
 };
 #endif

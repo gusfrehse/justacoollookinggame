@@ -35,8 +35,8 @@ auto init(void) -> void
     glNamedBufferStorage(Buffers[ArrayBuffer], sizeof(vertices), vertices, 0);
 
     auto program = ShaderProgram();
-    auto vertex = Shader(GL_VERTEX_SHADER, "./src/vert.glsl");
-    auto fragment = Shader(GL_FRAGMENT_SHADER, "./src/frag.glsl");
+    auto vertex = Shader(GL_VERTEX_SHADER, "./src/shader.vert");
+    auto fragment = Shader(GL_FRAGMENT_SHADER, "./src/shader.frag");
 
     program.set(vertex);
     program.set(fragment);

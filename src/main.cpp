@@ -4,6 +4,7 @@
 
 #include "shader_program.h"
 #include "shader.h"
+#include "cube.h"
 
 enum VAO_IDs {Triangles, NumVAOs};
 enum Buffer_IDs {ArrayBuffer, NumBuffers};

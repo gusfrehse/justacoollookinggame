@@ -3,6 +3,11 @@
 #include <iostream>
 #include <GL/gl3w.h>
 
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 ShaderProgram::ShaderProgram()
     : id(glCreateProgram())
 {}
@@ -86,6 +91,30 @@ auto ShaderProgram::link() const -> void
         glGetProgramInfoLog(id, len, &len, log);
         std::cerr << "Shader linking failed:\n" << log << std::endl;
     }
+}
+
+auto ShaderProgram::setUniform(std::string varName, glm::vec3 value) const -> void
+{
+    auto location = glGetUniformLocation(id, varName.c_str());
+    glUniform3fv(location, 1, glm::value_ptr(value));
+}
+
+auto ShaderProgram::setUniform(std::string varName, glm::vec2 value) const -> void
+{
+    auto location = glGetUniformLocation(id, varName.c_str());
+    glUniform2fv(location, 1, glm::value_ptr(value));
+}
+
+auto ShaderProgram::setUniform(std::string varName, GLfloat value) const -> void
+{
+    auto location = glGetUniformLocation(id, varName.c_str());
+    glUniform1f(location, value);
+}
+
+auto ShaderProgram::setUniform(std::string varName, glm::mat4x4 value) const -> void
+{
+    auto location = glGetUniformLocation(id, varName.c_str());
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 auto ShaderProgram::use() const -> void

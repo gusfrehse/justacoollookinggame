@@ -3,9 +3,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "camera.h"
 
-Camera;:Camera()
-    : pos(glm::vec3(0.0f, 0.0f, 0.0f)),
-      rot(glm::vec3(0.0f, 0.0f, 0.0f))
+Camera;:Camera(glm::vec3 position)
+    : 
+        pos(  glm::vec3(0.0f, 0.0f,  0.0f)),
+        rot(  glm::vec3(0.0f, 0.0f,  0.0f)),
+        dir(  glm::vec3(0.0f, 0.0f, -1.0f)),
+        right(glm::vec3(1.0f, 0.0f,  0.0f)),
+        up(glm::cross(dir, right)),
 {}
 
 auto Camera::translate(glm::vec3 where) -> void
@@ -24,12 +28,12 @@ auto rotate(glm::vec3 how) -> void
     rot = how;
 }
 
-auto lookAt(glm::vec3 where) -> void
+auto think() -> void
 {
-    // TODO
+    dir.x = 
 }
 
 auto genViewMatrix() const -> glm::mat4
 {
-
+    
 }

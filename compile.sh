@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cc="g++"
 std="-std=c++17"
 idir="-I./include/"

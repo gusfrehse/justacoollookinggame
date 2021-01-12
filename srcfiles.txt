@@ -1,1 +1,1 @@
-sourcefiles=".\src\main.cpp .\src\shader.cpp .\src\shader_program.cpp .\src\cube.cpp .\src\gl3w.c"
+sourcefiles=".\src\main.cpp .\src\shader.cpp .\src\shader_program.cpp .\src\cube.cpp .\src\camera.cpp .\src\gl3w.c"

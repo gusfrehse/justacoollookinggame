@@ -59,6 +59,7 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
     static const float black[] = {0.0f, 0.5f, 0.0f, 1.0f};
     glClearBufferfv(GL_COLOR, 0, black);
 
+
     program.use();
     program.setUniform("view", cam.genViewMatrix());
     auto proj = glm::perspective(90.0f, 4.0f / 3.0f, 0.1f, 100.0f);
@@ -68,7 +69,6 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
     glBindVertexArray(VAOs[Triangles]);
     glDrawArrays(GL_TRIANGLES, 0, NumVertices);
-
 }
 
 static void error_callback(int error, const char *description)
@@ -98,13 +98,20 @@ auto main(void) -> int
 
     init(program, vertex, fragment);
 
+    auto prevTime = glfwGetTime();
+    auto nowTime  = glfwGetTime();
+    auto deltaTime = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
-        cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(glfwGetTime()));
+        cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
         cam.think();
         display(program, vertex, fragment);
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        prevTime = nowTime;
+        nowTime = glfwGetTime();
+        deltaTime = nowTime - prevTime;
     }
 
     glfwDestroyWindow(window);

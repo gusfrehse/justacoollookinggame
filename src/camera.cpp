@@ -6,9 +6,9 @@
 
 Camera::Camera(glm::vec3 position)
     : 
-        pos(  glm::vec3(0.0f, 0.0f,  0.0f)),
-        rot(  glm::quat(1.0f, 0.0f,  0.0f, 0.0f)),
-        dir(  glm::vec3(0.0f, 0.0f, -1.0f)),
+        pos(position),
+        rot(glm::quat(1.0f, 0.0f,  0.0f, 0.0f)),
+        dir(glm::vec3(0.0f, 0.0f,  1.0f)),
         right(glm::vec3(1.0f, 0.0f,  0.0f)),
         up(glm::cross(dir, right))
 {}
@@ -26,6 +26,7 @@ auto Camera::rotate(glm::vec3 axis, float angle) -> void
 auto Camera::think() -> void
 {
     dir = rot * dir;
+    rot = glm::quat(1.0f, 0.f, 0.f, 0.f);
     right = glm::cross(worldUp, dir);
     up = glm::cross(dir, right);
 }

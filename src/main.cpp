@@ -6,6 +6,9 @@
 #include "shader.h"
 #include "camera.h"
 #include "cube.h"
+#include "callbacks.h"
+
+GLFWwindow* window;
 
 enum VAO_IDs {Triangles, NumVAOs};
 enum Buffer_IDs {ArrayBuffer, NumBuffers};
@@ -17,7 +20,6 @@ GLuint Buffers[NumBuffers];
 const GLuint NumVertices = 6;
 
 Camera cam(glm::vec3(0.0f, 0.0f, -3.0f));
-
 
 auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
@@ -71,10 +73,6 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
     glDrawArrays(GL_TRIANGLES, 0, NumVertices);
 }
 
-static void error_callback(int error, const char *description)
-{
-    std::cerr << "GLFW Error:\n" << description << std::endl;;
-}
 
 auto main(void) -> int
 { 
@@ -83,8 +81,9 @@ auto main(void) -> int
         std::cerr << "Could not init glfw (glfwInit())" << std::endl;
         return 1;
     }
-    glfwSetErrorCallback(error_callback);
-    GLFWwindow* window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
+
+    window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
+    setCallbacks();
     glfwMakeContextCurrent(window);
     if (gl3wInit())
     {

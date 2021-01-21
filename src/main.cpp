@@ -63,6 +63,8 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
     program.setUniform("view", cam.genViewMatrix());
     auto proj = glm::perspective(90.0f, 4.0f / 3.0f, 0.1f, 100.0f);
     program.setUniform("projection", proj);
+    auto model = glm::mat4x4(1.0f);
+    program.setUniform("model", model);
 
     glBindVertexArray(VAOs[Triangles]);
     glDrawArrays(GL_TRIANGLES, 0, NumVertices);
@@ -98,6 +100,7 @@ auto main(void) -> int
 
     while (!glfwWindowShouldClose(window))
     {
+        cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(glfwGetTime()));
         cam.think();
         display(program, vertex, fragment);
         glfwSwapBuffers(window);

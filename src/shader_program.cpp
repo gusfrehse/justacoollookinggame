@@ -96,24 +96,44 @@ auto ShaderProgram::link() const -> void
 auto ShaderProgram::setUniform(std::string varName, glm::vec3 value) const -> void
 {
     auto location = glGetUniformLocation(id, varName.c_str());
+    if (location == -1)
+    {
+        std::cerr << "'" << varName << "' is not a valid variable name for a uniform" << std::endl;
+
+    }
     glUniform3fv(location, 1, glm::value_ptr(value));
 }
 
 auto ShaderProgram::setUniform(std::string varName, glm::vec2 value) const -> void
 {
     auto location = glGetUniformLocation(id, varName.c_str());
+    if (location == -1)
+    {
+        std::cerr << "'" << varName << "' is not a valid variable name for a uniform" << std::endl;
+
+    }
     glUniform2fv(location, 1, glm::value_ptr(value));
 }
 
 auto ShaderProgram::setUniform(std::string varName, GLfloat value) const -> void
 {
     auto location = glGetUniformLocation(id, varName.c_str());
+    if (location == -1)
+    {
+        std::cerr << "'" << varName << "' is not a valid variable name for a uniform" << std::endl;
+
+    }
     glUniform1f(location, value);
 }
 
 auto ShaderProgram::setUniform(std::string varName, glm::mat4x4 value) const -> void
 {
     auto location = glGetUniformLocation(id, varName.c_str());
+    if (location == -1)
+    {
+        std::cerr << "'" << varName << "' is not a valid variable name for a uniform" << std::endl;
+
+    }
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 

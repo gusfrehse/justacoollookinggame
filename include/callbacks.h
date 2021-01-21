@@ -10,4 +10,6 @@ auto framebuffer_resize_callback(GLFWwindow* window, int width, int height) -> v
 
 auto error_callback(int error, const char *description) -> void;
 
+auto process_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void;
+
 #endif

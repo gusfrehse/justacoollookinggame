@@ -18,7 +18,7 @@ auto Camera::translate(glm::vec3 where) -> void
     pos = where;
 }
 
-auto move(glm::vec3 where) -> void
+auto Camera::move(glm::vec3 where) -> void
 {
     pos += where;
 }

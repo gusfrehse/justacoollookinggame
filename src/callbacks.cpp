@@ -9,6 +9,7 @@ auto setCallbacks() -> void
 {
     glfwSetErrorCallback(error_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
+    glfwSetKeyCallback(window, process_key_callback);
 }
 
 auto framebuffer_resize_callback(GLFWwindow* window, int width, int height) -> void
@@ -19,4 +20,11 @@ auto framebuffer_resize_callback(GLFWwindow* window, int width, int height) -> v
 auto error_callback(int error, const char *description) -> void
 {
     std::cerr << "GLFW Error:\n" << description << std::endl;
+}
+
+auto process_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void
+{
+    
+   auto str = action == GLFW_PRESS ? "pressed" : action == GLFW_RELEASE ? "released" : "repeated";
+    std::cout << "'" << glfwGetKeyName(key, scancode) << "' " << str << std::endl;
 }

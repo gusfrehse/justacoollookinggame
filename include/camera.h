@@ -20,6 +20,7 @@ public:
     Camera(glm::vec3 position);
     
     auto translate(glm::vec3 where) -> void;
+    auto move(glm::vec3 where) -> void;
     auto rotate(glm::vec3 axis, float angle) -> void;
     auto think() -> void;
     auto genViewMatrix() const -> glm::mat4;

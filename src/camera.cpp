@@ -18,6 +18,11 @@ auto Camera::translate(glm::vec3 where) -> void
     pos = where;
 }
 
+auto move(glm::vec3 where) -> void
+{
+    pos += where;
+}
+
 auto Camera::rotate(glm::vec3 axis, float angle) -> void
 {
     rot = glm::rotate(rot, angle, axis);

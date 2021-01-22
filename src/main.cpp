@@ -21,6 +21,8 @@ const GLuint NumVertices = 6;
 
 Camera cam(glm::vec3(0.0f, 0.0f, -3.0f));
 
+double deltaTime = 0.0;
+
 auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
     static const glm::vec3 vertices[NumVertices] =
@@ -99,10 +101,11 @@ auto main(void) -> int
 
     auto prevTime = glfwGetTime();
     auto nowTime  = glfwGetTime();
-    auto deltaTime = glfwGetTime();
+    deltaTime = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
-        cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
+        //cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
+        std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << std::endl;
         cam.think();
         display(program, vertex, fragment);
         glfwSwapBuffers(window);

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cc="g++"
-std="-std=c++17"
+std="-std=c++2a"
 idir="-I./include/"
 ldir=""
 libs="-lglfw3 -ldl -lpthread"

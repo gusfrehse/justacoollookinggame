@@ -17,6 +17,8 @@ public:
     glm::quat rot; // cos(angle/2), axis
     glm::vec3 dir;
 
+    float speed;
+
     Camera(glm::vec3 position);
     
     auto translate(glm::vec3 where) -> void;

@@ -1,8 +1,11 @@
 #include <iostream>
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+
+#include "input.h"
 #include "callbacks.h"
 
+// from main.cpp
 extern GLFWwindow* window;
 
 auto setCallbacks() -> void
@@ -24,7 +27,5 @@ auto error_callback(int error, const char *description) -> void
 
 auto process_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void
 {
-    
-   auto str = action == GLFW_PRESS ? "pressed" : action == GLFW_RELEASE ? "released" : "repeated";
-    std::cout << "'" << glfwGetKeyName(key, scancode) << "' " << str << std::endl;
+    Input::processInput(key, scancode, action, mods); 
 }

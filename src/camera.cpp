@@ -10,7 +10,8 @@ Camera::Camera(glm::vec3 position)
         rot(glm::quat(1.0f, 0.0f,  0.0f, 0.0f)),
         dir(glm::vec3(0.0f, 0.0f,  1.0f)),
         right(glm::vec3(1.0f, 0.0f,  0.0f)),
-        up(glm::cross(dir, right))
+        up(glm::cross(dir, right)),
+        speed(50.0f)
 {}
 
 auto Camera::translate(glm::vec3 where) -> void

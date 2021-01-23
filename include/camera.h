@@ -13,11 +13,12 @@ public:
     glm::vec3 up;
     glm::vec3 right;
 
+    glm::vec3 next_pos;
     glm::vec3 pos;
     glm::quat rot; // cos(angle/2), axis
     glm::vec3 dir;
 
-    float speed;
+    double speed;
 
     Camera(glm::vec3 position);
     

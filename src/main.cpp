@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "cube.h"
 #include "callbacks.h"
+#include "input.h"
 
 GLFWwindow* window;
 
@@ -85,6 +86,7 @@ auto main(void) -> int
     }
 
     window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
+    glfwSwapInterval(1);
     setCallbacks();
     glfwMakeContextCurrent(window);
     if (gl3wInit())
@@ -105,7 +107,10 @@ auto main(void) -> int
     while (!glfwWindowShouldClose(window))
     {
         //cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
+        std::cout << "\33[2K\r";
         std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << std::endl;
+
+        //Input::process_input();
         cam.think();
         display(program, vertex, fragment);
         glfwSwapBuffers(window);

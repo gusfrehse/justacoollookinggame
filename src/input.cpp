@@ -17,7 +17,7 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra frente" << std::endl;
-                cam.move((float) deltaTime * cam.speed * cam.dir);
+                cam.move((float) ( cam.speed) * cam.dir);
             }
         },
         {
@@ -25,7 +25,7 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra tras" << std::endl;
-                cam.move((float) -deltaTime * cam.speed * cam.dir);
+                cam.move((float) (- cam.speed) * cam.dir);
             }
         },
         {
@@ -33,7 +33,7 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra direita" << std::endl;
-                cam.move((float) deltaTime * cam.speed * cam.right);
+                cam.move((float) ( cam.speed) * cam.right);
             }
         },
         {
@@ -41,21 +41,21 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra esquerda" << std::endl;
-                cam.move((float) -deltaTime * cam.speed * cam.right);
+                cam.move((float) (- cam.speed) * cam.right);
             }
         },
         {
             GLFW_KEY_SPACE,
             []()
             {
-                cam.move((float) deltaTime * cam.speed * Camera::worldUp);
+                cam.move((float) ( cam.speed) * Camera::worldUp);
             }
         },
         {
             GLFW_KEY_LEFT_SHIFT,
             []()
             {
-                cam.move(-(float) deltaTime * cam.speed * Camera::worldUp);
+                cam.move((float) (- cam.speed) * Camera::worldUp);
             }
         }
     };
@@ -68,6 +68,11 @@ namespace Input {
             {
                 Input::keyMapping[key]();
             }
+        }
+        else if (mods & GLFW_MOD_SHIFT)
+        {
+            // no key pressed but shift
+            Input::keyMapping[GLFW_KEY_LEFT_SHIFT]();
         }
     }
 }

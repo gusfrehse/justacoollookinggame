@@ -27,5 +27,8 @@ auto error_callback(int error, const char *description) -> void
 
 auto process_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void
 {
-    Input::processInput(key, scancode, action, mods); 
+    Input::processInput(key, scancode, action, mods);
+
+
 }
+

@@ -64,7 +64,7 @@ namespace Input {
     {
         if (action == GLFW_PRESS || action == GLFW_REPEAT)
         {
-            if (Input::keyMapping.contains(key))
+            if (Input::keyMapping.find(key) != Input::keyMapping.end()) // maybe one day change back to .contains()
             {
                 Input::keyMapping[key]();
             }

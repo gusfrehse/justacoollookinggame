@@ -13,4 +13,4 @@ set %sfilesstring%
 set sourcefiles=%sourcefiles:"=%
 echo %sourcefiles%
 
-%cc% -g %std% -o %exe% %sourcefiles% %idir% %ldir% %libs%
+%cc% -g %std% -o %exe% %idir% %ldir% %sourcefiles% %libs%

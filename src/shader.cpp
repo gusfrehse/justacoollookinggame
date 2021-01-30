@@ -1,8 +1,7 @@
 #include "shader.h"
 
-#include <fstream>
-#include <sstream>
 #include <iostream>
+#include <cstdio>
 
 Shader::Shader(GLenum t, const char* path) :
     type(t), id(glCreateShader(t))
@@ -17,13 +16,14 @@ Shader::Shader(GLenum t, const char* path) :
     else
     {
         fseek(shaderSource, 0, SEEK_END);
-        int len = ftell(shaderSource);
+        int len = ftell(shaderSource); // \r if on windows
         fseek(shaderSource, 0, SEEK_SET);
 
         source = new GLchar[len + 1];
-        source[len] = 0;
 
-        fread(source, 1, len, shaderSource);
+        int actualLen = fread(source, 1, len, shaderSource); // size without \r (this cause some unused memory (number of lines * sizeof(char)) but it's okay for now)
+
+        source[actualLen] = 0x00;
         fclose(shaderSource);
     }
 }

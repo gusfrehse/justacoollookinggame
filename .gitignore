@@ -3,3 +3,5 @@
 *.vim
 hardcopy.*
 game
+
+out.txt

@@ -20,7 +20,7 @@ GLuint Buffers[NumBuffers];
 
 const GLuint NumVertices = 6;
 
-Camera cam(glm::vec3(0.0f, 0.0f, -3.0f));
+Camera cam(glm::vec3(0.0f, 0.0f, 3.0f));
 
 double deltaTime = 0.0;
 
@@ -107,8 +107,7 @@ auto main(void) -> int
     while (!glfwWindowShouldClose(window))
     {
         //cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
-        std::cout << "\33[2K\r";
-        std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << std::endl;
+        std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
 
         //Input::process_input();
         cam.think();

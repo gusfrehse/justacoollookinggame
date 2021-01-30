@@ -13,6 +13,7 @@ auto setCallbacks() -> void
     glfwSetErrorCallback(error_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
     glfwSetKeyCallback(window, process_key_callback);
+    glfwSetCursorPosCallback(window, process_mouse_movement_callback);
 }
 
 auto framebuffer_resize_callback(GLFWwindow* window, int width, int height) -> void
@@ -27,8 +28,12 @@ auto error_callback(int error, const char *description) -> void
 
 auto process_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void
 {
-    Input::processInput(key, scancode, action, mods);
+    Input::processKeyInput(key, scancode, action, mods);
+}
 
-
+auto process_mouse_movement_callback(GLFWwindow* window, double x, double y) -> void
+{
+    std::cout << "x: " << x << " y: " << y << std::endl;
+    Input::processMouseMoveInput(x, y);
 }
 

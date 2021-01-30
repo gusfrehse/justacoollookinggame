@@ -87,6 +87,12 @@ auto main(void) -> int
 
     window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
     glfwSwapInterval(1);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported())
+    {
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
     setCallbacks();
     glfwMakeContextCurrent(window);
     if (gl3wInit())
@@ -107,7 +113,7 @@ auto main(void) -> int
     while (!glfwWindowShouldClose(window))
     {
         //cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
-        std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
+        //std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
 
         //Input::process_input();
         cam.think();

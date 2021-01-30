@@ -19,6 +19,7 @@ public:
     glm::vec3 dir;
 
     double speed;
+    double sensitivity;
 
     Camera(glm::vec3 position);
     

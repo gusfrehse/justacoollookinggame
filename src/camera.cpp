@@ -12,7 +12,8 @@ Camera::Camera(glm::vec3 position)
         dir(glm::vec3(0.0f, 0.0f,  -1.0f)),
         right(glm::vec3(1.0f, 0.0f,  0.0f)),
         up(glm::cross(right, dir)),
-        speed(0.1)
+        speed(0.1),
+        sensitivity(0.01)
 {}
 
 auto Camera::translate(glm::vec3 where) -> void

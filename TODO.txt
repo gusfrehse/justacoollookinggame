@@ -1,0 +1,13 @@
+TODO:
+-> Movement in no callbacks
+-> Camera rotation on mouse movement not on callback
+-> deltaTime correction on cam.speed and cam.sensitivity
+-> .obj loader (add dependency or make our self?)
+-> actual game mechanics
+    -> 3d.
+    -> cool effects
+        -> super secret settings type of thing
+    -> no story elements?
+        -> what is the player?
+    -> main mechanic?
+-> polish 

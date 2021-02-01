@@ -15,6 +15,16 @@ extern double deltaTime;
 namespace Input {
     std::unordered_map<int, std::function<void()>> keyMapping = {
         {
+            GLFW_KEY_ESCAPE,
+            []()
+            {
+                glfwSetWindowShouldClose(window, GLFW_TRUE);
+            }
+        }
+    };
+
+    std::unordered_map<int, std::function<void()>> keyQuickMapping = {
+        {
             GLFW_KEY_W,
             []()
             {
@@ -59,13 +69,6 @@ namespace Input {
             {
                 cam.move((float) (- cam.speed) * Camera::worldUp);
             }
-        },
-        {
-            GLFW_KEY_ESCAPE,
-            []()
-            {
-                glfwSetWindowShouldClose(window, GLFW_TRUE);
-            }
         }
     };
 
@@ -73,18 +76,26 @@ namespace Input {
     {
         if (action == GLFW_PRESS || action == GLFW_REPEAT)
         {
-            if (Input::keyMapping.find(key) != Input::keyMapping.end()) // maybe one day change back to .contains()
+            if (Input::keyMapping.find(key) != Input::keyMapping.end())
             {
                 Input::keyMapping[key]();
             }
         }
-        else if (mods & GLFW_MOD_SHIFT)
-        {
-            // no key pressed but shift
-            Input::keyMapping[GLFW_KEY_LEFT_SHIFT]();
-        }
     }
     
+    auto processQuickKeyInput() -> void
+    {
+        for (auto&& [k, f] : keyQuickMapping)
+        {
+            int state = glfwGetKey(window, k);
+            if (state == GLFW_PRESS || state == GLFW_REPEAT)
+            {
+                f(); 
+            }
+        }
+    }
+
+
     static double prevX = 0.0;
     static double prevY = 0.0;
 

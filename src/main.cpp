@@ -112,10 +112,10 @@ auto main(void) -> int
     deltaTime = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
-        //cam.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::sin(1.0f * deltaTime));
-        //std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
+        std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
 
         Input::processQuickKeyInput();
+        Input::processMouseInput();
         cam.think();
         display(program, vertex, fragment);
         glfwSwapBuffers(window);

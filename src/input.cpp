@@ -95,9 +95,7 @@ namespace Input {
         {
             int state = glfwGetKey(window, k);
             if (state == GLFW_PRESS || state == GLFW_REPEAT)
-            {
                 f(); 
-            }
         }
     }
 
@@ -105,10 +103,13 @@ namespace Input {
     static double prevX = 0.0;
     static double prevY = 0.0;
 
-    auto processMouseMoveInput(double x, double y) -> void
+    auto processMouseInput() -> void
     {
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
         double deltaX = x - prevX;
         double deltaY = y - prevY;
+
         std::cout << "deltaX: " << deltaX << " deltaY: " << deltaY << std::endl;
         cam.rotate(Camera::worldUp, -deltaX * cam.sensitivity);
         cam.rotate(cam.right, -deltaY * cam.sensitivity);

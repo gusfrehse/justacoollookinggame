@@ -4,6 +4,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include "camera.h"
 
+#include <iostream>
+
 Camera::Camera(glm::vec3 position)
     : 
         pos(position),
@@ -13,7 +15,7 @@ Camera::Camera(glm::vec3 position)
         right(glm::vec3(1.0f, 0.0f,  0.0f)),
         up(glm::cross(right, dir)),
         speed(0.1),
-        sensitivity(0.01)
+        sensitivity(0.005)
 {}
 
 auto Camera::translate(glm::vec3 where) -> void
@@ -28,7 +30,10 @@ auto Camera::move(glm::vec3 where) -> void
 
 auto Camera::rotate(glm::vec3 axis, float angle) -> void
 {
-    rot = glm::rotate(rot, angle, axis);
+    if (angle != 0.0f)
+    {
+        rot = glm::rotate(rot, angle, axis);
+    }
 }
 
 auto Camera::think() -> void

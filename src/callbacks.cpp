@@ -33,6 +33,5 @@ auto process_key_callback(GLFWwindow* window, int key, int scancode, int action,
 
 auto process_mouse_movement_callback(GLFWwindow* window, double x, double y) -> void
 {
-    Input::processMouseMoveInput(x, y);
 }
 

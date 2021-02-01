@@ -29,7 +29,10 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra frente" << std::endl;
-                cam.move((float) ( cam.speed) * cam.dir);
+                auto direction = cam.dir;
+                direction.y = 0;
+                glm::normalize(direction);
+                cam.move((float) ( cam.speed) * direction);
             }
         },
         {
@@ -37,7 +40,10 @@ namespace Input {
             []()
             {
                 std::cout << "indo pra tras" << std::endl;
-                cam.move((float) (- cam.speed) * cam.dir);
+                auto direction = cam.dir;
+                direction.y = 0;
+                glm::normalize(direction);
+                cam.move((float) (- cam.speed) * direction);
             }
         },
         {

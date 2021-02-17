@@ -41,8 +41,15 @@ auto Camera::think() -> void
     dir = rot * dir;
     rot = glm::quat(1.0f, 0.f, 0.f, 0.f);
     right = glm::cross(dir, worldUp);
+    right = glm::normalize(right);
     up = glm::cross(right, dir);
     pos = next_pos;
+    std::cout << "camera right"
+        << " x: " << right.x
+        << " y: " << right.y
+        << " z: " << right.z
+        << " length: " << glm::length(right)
+        << std::endl;
 }
 
 auto Camera::genViewMatrix() const -> glm::mat4

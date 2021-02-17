@@ -1,4 +1,3 @@
-#include <iostream>
 #include <unordered_map>
 #include <glm/vec3.hpp>
 
@@ -28,10 +27,9 @@ namespace Input {
             GLFW_KEY_W,
             []()
             {
-                std::cout << "indo pra frente" << std::endl;
                 auto direction = cam.dir;
                 direction.y = 0;
-                glm::normalize(direction);
+                direction = glm::normalize(direction);
                 cam.move((float) ( cam.speed) * direction);
             }
         },
@@ -39,10 +37,9 @@ namespace Input {
             GLFW_KEY_S,
             []()
             {
-                std::cout << "indo pra tras" << std::endl;
                 auto direction = cam.dir;
                 direction.y = 0;
-                glm::normalize(direction);
+                direction = glm::normalize(direction);
                 cam.move((float) (- cam.speed) * direction);
             }
         },
@@ -50,7 +47,6 @@ namespace Input {
             GLFW_KEY_D,
             []()
             {
-                std::cout << "indo pra direita" << std::endl;
                 cam.move((float) ( cam.speed) * cam.right);
             }
         },
@@ -58,7 +54,6 @@ namespace Input {
             GLFW_KEY_A,
             []()
             {
-                std::cout << "indo pra esquerda" << std::endl;
                 cam.move((float) (- cam.speed) * cam.right);
             }
         },
@@ -110,7 +105,6 @@ namespace Input {
         double deltaX = x - prevX;
         double deltaY = y - prevY;
 
-        std::cout << "deltaX: " << deltaX << " deltaY: " << deltaY << std::endl;
         cam.rotate(Camera::worldUp, -deltaX * cam.sensitivity);
         cam.rotate(cam.right, -deltaY * cam.sensitivity);
         prevX = x;

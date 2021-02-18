@@ -8,6 +8,7 @@
 #include "cube.h"
 #include "callbacks.h"
 #include "input.h"
+#include "mesh.h"
 
 GLFWwindow* window;
 
@@ -18,7 +19,7 @@ enum Attrib_IDs {vPosition = 0};
 GLuint VAOs[NumVAOs];
 GLuint Buffers[NumBuffers];
 
-const GLuint NumVertices = 6;
+GLuint NumVertices;
 
 Camera cam(glm::vec3(0.0f, 0.0f, 3.0f));
 
@@ -26,22 +27,30 @@ double deltaTime = 0.0;
 
 auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
-    static const glm::vec3 vertices[NumVertices] =
-    {
-        glm::vec3(-0.90, -0.90, 0.0f), // Triangle 1
-        glm::vec3( 0.85, -0.90, 0.0f),
-        glm::vec3(-0.90,  0.85, 0.0f),
-        glm::vec3( 0.90, -0.85, 0.0f), // Triangle 2
-        glm::vec3( 0.90,  0.90, 0.0f),
-        glm::vec3(-0.85,  0.90, 0.0f),
-    };
+    // static const glm::vec3 vertices[NumVertices] =
+    // {
+    //     glm::vec3(-0.90, -0.90, 3.0f), // Triangle 1
+    //     glm::vec3( 0.85, -0.90, 0.0f),
+    //     glm::vec3(-0.90,  0.85, -3.f),
+    //     glm::vec3( 0.90, -0.85, 0.0f), // Triangle 2
+    //     glm::vec3( 0.90,  0.90, 0.0f),
+    //     glm::vec3(-0.85,  0.90, 0.0f),
+    // };
 
+    Mesh mesh;
+    mesh.open("teapot.obj");
+    NumVertices = mesh.vertices.size();
+
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        
     glCreateVertexArrays(NumVAOs, VAOs);
 
     // Get the names (video card pointers)
     glCreateBuffers(NumBuffers, Buffers);
     // Alloc video memory and initialize it with vertices
-    glNamedBufferStorage(Buffers[ArrayBuffer], sizeof(vertices), vertices, 0);
+    glNamedBufferStorage(Buffers[ArrayBuffer], mesh.vertices.size() * sizeof(glm::vec3),
+			 mesh.vertices.data(), 0);
 
 
     program.set(vertex);
@@ -61,8 +70,7 @@ auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
 auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
-    static const float black[] = {0.0f, 0.5f, 0.0f, 1.0f};
-    glClearBufferfv(GL_COLOR, 0, black);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
     program.use();
@@ -112,9 +120,7 @@ auto main(void) -> int
     deltaTime = glfwGetTime();
     while (!glfwWindowShouldClose(window))
     {
-        //std::cout << "cam pos (xyz): " << cam.pos.x << " " << cam.pos.y << " " << cam.pos.z << " " << "cam right (xyz): " << cam.right.x << " " << cam.right.y << " " << cam.right.z << " " << "cam up (xyz): " << cam.up.x << " " << cam.up.y << " " << cam.up.z << " " << "cam dir (xyz): " << cam.dir.x << " " << cam.dir.y << " " << cam.dir.z << std::endl;
-
-        Input::processQuickKeyInput();
+	Input::processQuickKeyInput();
         Input::processMouseInput();
         cam.think();
         display(program, vertex, fragment);

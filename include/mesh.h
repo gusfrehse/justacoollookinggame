@@ -1,9 +1,10 @@
-#include <GL/gl3w.h>
+#include <glm/vec3.hpp>
 #include <string>
 
 class Mesh
 {
-    Mesh();
-    auto open(std::string path) -> void;
+public:
+    std::vector<glm::vec3> vertices;
+    auto open(std::string path) -> int;
     //auto toVAO() -> GLint;
 };

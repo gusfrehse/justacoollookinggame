@@ -15,7 +15,7 @@ public:
 
     glm::vec3 next_pos;
     glm::vec3 pos;
-    glm::quat rot; // cos(angle/2), axis
+    glm::vec3 rot; // yaw, picth, roll
     glm::vec3 dir;
 
     double speed;
@@ -25,7 +25,9 @@ public:
     
     auto translate(glm::vec3 where) -> void;
     auto move(glm::vec3 where) -> void;
-    auto rotate(glm::vec3 axis, float angle) -> void;
+    auto rotateX(float angle) -> void;
+    auto rotateY(float angle) -> void;
+    auto rotateZ(float angle) -> void;
     auto think() -> void;
     auto genViewMatrix() const -> glm::mat4;
 };

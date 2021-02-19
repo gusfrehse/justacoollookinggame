@@ -28,7 +28,7 @@ auto Camera::move(glm::vec3 where) -> void
     next_pos += where;
 }
 
-auto Camera::rotate(glm::vec3 axis, float angle) -> void
+auto Camera::rotateX(glm::vec3 axis, float angle) -> void
 {
     if (angle != 0.0f)
     {
@@ -36,11 +36,27 @@ auto Camera::rotate(glm::vec3 axis, float angle) -> void
     }
 }
 
+auto Camera::rotateY(glm::vec3 axis, float angle) -> void
+{
+    if (angle != 0.0f)
+    {
+        rot = glm::rotate(rot, angle, axis);
+    }
+}
+
+auto Camera::rotateZ(glm::vec3 axis, float angle) -> void
+{
+    if (angle != 0.0f)
+    {
+        rot = glm::rotate(rot, angle, axis);
+    }
+
 auto Camera::think() -> void
 {
     dir = rot * dir;
-    rot = glm::quat(1.0f, 0.f, 0.f, 0.f);
-    right = glm::cross(dir, worldUp);
+    right = rot * right;
+    rot = glm::quat(1.0f, 0.f, 0.f, 0.f); // identity quaternion
+    //right = glm::cross(dir, worldUp);
     right = glm::normalize(right);
     up = glm::cross(right, dir);
     pos = next_pos;

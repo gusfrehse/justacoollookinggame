@@ -30,7 +30,7 @@ namespace Input {
                 auto direction = cam.dir;
                 direction.y = 0;
                 direction = glm::normalize(direction);
-                cam.move((float) ( cam.speed) * direction);
+                cam.move((float) (cam.speed) * (float) deltaTime * direction);
             }
         },
         {
@@ -40,35 +40,35 @@ namespace Input {
                 auto direction = cam.dir;
                 direction.y = 0;
                 direction = glm::normalize(direction);
-                cam.move((float) (- cam.speed) * direction);
+                cam.move((float) (-cam.speed) * (float) deltaTime * direction);
             }
         },
         {
             GLFW_KEY_D,
             []()
             {
-                cam.move((float) ( cam.speed) * cam.right);
+                cam.move((float) (cam.speed) * (float) deltaTime * cam.right);
             }
         },
         {
             GLFW_KEY_A,
             []()
             {
-                cam.move((float) (- cam.speed) * cam.right);
+                cam.move((float) (-cam.speed) * (float) deltaTime * cam.right);
             }
         },
         {
             GLFW_KEY_SPACE,
             []()
             {
-                cam.move((float) ( cam.speed) * Camera::worldUp);
+                cam.move((float) (cam.speed) * (float) deltaTime * Camera::worldUp);
             }
         },
         {
             GLFW_KEY_LEFT_SHIFT,
             []()
             {
-                cam.move((float) (- cam.speed) * Camera::worldUp);
+                cam.move((float) (-cam.speed) * (float) deltaTime * Camera::worldUp);
             }
         }
     };
@@ -105,8 +105,8 @@ namespace Input {
         double deltaX = x - prevX;
         double deltaY = y - prevY;
 
-        cam.rotate(Camera::worldUp, -deltaX * cam.sensitivity);
-        cam.rotate(cam.right, -deltaY * cam.sensitivity);
+        cam.rotateY(-deltaX * cam.sensitivity * deltaTime);
+        cam.rotateX(-deltaY * cam.sensitivity * deltaTime);
         prevX = x;
         prevY = y;
     }

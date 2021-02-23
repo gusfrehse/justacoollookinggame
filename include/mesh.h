@@ -1,3 +1,6 @@
+#ifndef G_MESH_H
+#define G_MESH_H
+
 #include <glm/vec3.hpp>
 #include <string>
 
@@ -8,3 +11,5 @@ public:
     auto open(std::string path) -> int;
     //auto toVAO() -> GLint;
 };
+
+#endif

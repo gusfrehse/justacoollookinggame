@@ -15,7 +15,9 @@ public:
 
     glm::vec3 next_pos;
     glm::vec3 pos;
-    glm::vec3 rot; // yaw, picth, roll
+    float yaw;
+    float pitch;
+    float roll;
     glm::vec3 dir;
 
     double speed;

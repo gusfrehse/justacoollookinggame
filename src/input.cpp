@@ -105,7 +105,7 @@ namespace Input {
         double deltaX = x - prevX;
         double deltaY = y - prevY;
 
-        cam.rotateY(-deltaX * cam.sensitivity * deltaTime);
+        cam.rotateY( deltaX * cam.sensitivity * deltaTime);
         cam.rotateX(-deltaY * cam.sensitivity * deltaTime);
         prevX = x;
         prevY = y;

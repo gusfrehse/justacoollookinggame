@@ -15,7 +15,7 @@ Camera::Camera(glm::vec3 position)
         right(glm::vec3(1.0f, 0.0f, 0.0f)),
         up(glm::cross(right, dir)),
         speed(20.0f),
-        sensitivity(50.0),
+        sensitivity(10.0),
 	yaw(0.0f),
 	pitch(0.0f),
 	roll(0.0f)
@@ -75,8 +75,6 @@ auto Camera::think() -> void
     dir.y = glm::sin(glm::radians(pitch));
     dir.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
     dir = glm::normalize(dir);
-    std::cout << "pitch: " << pitch << " yaw:   " << yaw   << " roll:  " << roll << std::endl
-	      << "dir.x: " << dir.x << " dir.y: " << dir.y << " dir.z: " << dir.z << std::endl;
 	         
     right = glm::cross(dir, worldUp);
     right = glm::normalize(right);

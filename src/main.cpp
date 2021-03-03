@@ -1,6 +1,7 @@
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <cstring>
 
 #include "shader_program.h"
 #include "shader.h"
@@ -14,12 +15,12 @@ GLFWwindow* window;
 
 enum VAO_IDs {Triangles, NumVAOs};
 enum Buffer_IDs {ArrayBuffer, NumBuffers};
-enum Attrib_IDs {vPosition = 0};
+enum Attrib_IDs {vPosition = 0, vNormal};
 
 GLuint VAOs[NumVAOs];
 GLuint Buffers[NumBuffers];
 
-GLuint NumVertices;
+long long num_vertices;
 
 Camera cam(glm::vec3(0.0f, 0.0f, 3.0f));
 
@@ -27,19 +28,10 @@ double deltaTime = 0.0;
 
 auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
-    // static const glm::vec3 vertices[NumVertices] =
-    // {
-    //     glm::vec3(-0.90, -0.90, 3.0f), // Triangle 1
-    //     glm::vec3( 0.85, -0.90, 0.0f),
-    //     glm::vec3(-0.90,  0.85, -3.f),
-    //     glm::vec3( 0.90, -0.85, 0.0f), // Triangle 2
-    //     glm::vec3( 0.90,  0.90, 0.0f),
-    //     glm::vec3(-0.85,  0.90, 0.0f),
-    // };
-
     Mesh mesh;
     mesh.open("teapot.obj");
-    NumVertices = mesh.vertices.size();
+    num_vertices = mesh.vertices.size();
+    long long num_normals = mesh.normals.size();
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -48,11 +40,20 @@ auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
     // Get the names (video card pointers)
     glCreateBuffers(NumBuffers, Buffers);
+
     // Alloc video memory and initialize it with vertices
-    glNamedBufferStorage(Buffers[ArrayBuffer], mesh.vertices.size() * sizeof(glm::vec3),
-			 mesh.vertices.data(), 0);
+    glNamedBufferStorage(Buffers[ArrayBuffer],
+			 (num_vertices + num_normals) * 3 * sizeof(float),
+			 NULL,
+			 GL_MAP_WRITE_BIT);
 
+    float* vbo = (float *) glMapNamedBuffer(Buffers[ArrayBuffer], GL_WRITE_ONLY);
+    std::cout << "vertices: " << num_vertices << " normals: " <<  num_normals << std::endl;
+    std::memcpy(vbo, mesh.vertices.data(), num_vertices * 3 * sizeof(float));
+    std::memcpy(vbo + num_vertices * 3, mesh.normals.data(), num_normals * 3 * sizeof(float));
 
+    glUnmapNamedBuffer(Buffers[ArrayBuffer]);
+    
     program.set(vertex);
     program.set(fragment);
 
@@ -66,6 +67,10 @@ auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
     glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(vPosition);
+
+    glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, 0, (void*) (num_vertices * sizeof(glm::vec3)));
+    glEnableVertexAttribArray(vNormal);
+
 }
 
 auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
@@ -81,7 +86,7 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
     program.setUniform("model", model);
 
     glBindVertexArray(VAOs[Triangles]);
-    glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+    glDrawArrays(GL_TRIANGLES, 0, num_vertices);
 }
 
 
@@ -92,6 +97,7 @@ auto main(void) -> int
         std::cerr << "Could not init glfw (glfwInit())" << std::endl;
         return 1;
     }
+
 
     window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
     glfwSwapInterval(1);

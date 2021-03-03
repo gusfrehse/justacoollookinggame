@@ -10,6 +10,8 @@
 auto Mesh::open(std::string path) -> int
 {
     tinyobj::ObjReaderConfig config;
+    config.triangulate = true;
+    config.vertex_color = false;
     config.mtl_search_path = "";
 
     tinyobj::ObjReader reader;
@@ -29,6 +31,7 @@ auto Mesh::open(std::string path) -> int
 	std::cerr << "TinyObjReader warning: " << reader.Warning();
     }
 
+
     auto& attrib = reader.GetAttrib();
     auto& shapes = reader.GetShapes();
     auto& materials = reader.GetMaterials();
@@ -42,7 +45,11 @@ auto Mesh::open(std::string path) -> int
 		attrib.vertices[3 * index.vertex_index + 1],
 		attrib.vertices[3 * index.vertex_index + 2]);
 	    vertices.push_back(vertex);
-	    // indices.push_back(indices.size());
+	    auto normal = glm::vec3(
+		attrib.normals[3 * index.normal_index + 0],
+		attrib.normals[3 * index.normal_index + 1],
+		attrib.normals[3 * index.normal_index + 2]);
+	    normals.push_back(normal);
 	}
     }
 

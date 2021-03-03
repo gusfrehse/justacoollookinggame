@@ -10,6 +10,7 @@
 class ShaderProgram
 {
     GLuint id;
+    bool ok;
     std::unordered_map<GLenum, Shader> shaders;
 
 public:

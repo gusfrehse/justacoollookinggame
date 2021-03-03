@@ -2,11 +2,14 @@
 
 #include <iostream>
 #include <GL/gl3w.h>
+#include <GLFW/glfw3.h>
 
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+extern GLFWwindow* window;
 
 ShaderProgram::ShaderProgram()
     : id(glCreateProgram())
@@ -69,6 +72,11 @@ auto ShaderProgram::compile() -> void
     for (auto&& s : shaders)
     {
         s.second.compile();
+	if (!s.second.ready)
+	{
+	    glfwSetWindowShouldClose(window, true);
+	    break;
+	}
     }
 }
 
@@ -90,6 +98,7 @@ auto ShaderProgram::link() const -> void
         GLchar* log = new GLchar[len+1];
         glGetProgramInfoLog(id, len, &len, log);
         std::cerr << "Shader linking failed:\n" << log << std::endl;
+	glfwSetWindowShouldClose(window, true);
     }
 }
 

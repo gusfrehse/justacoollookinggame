@@ -8,6 +8,8 @@ class Mesh
 {
 public:
     std::vector<glm::vec3> vertices;
+    std::vector<glm::vec3> normals;
+    
     auto open(std::string path) -> int;
     //auto toVAO() -> GLint;
 };

@@ -1,12 +1,14 @@
 #include <iostream>
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+#include <glm/vec2.hpp>
 
 #include "input.h"
 #include "callbacks.h"
 
 // from main.cpp
 extern GLFWwindow* window;
+extern glm::ivec2 window_size;
 
 auto setCallbacks() -> void
 {
@@ -19,6 +21,8 @@ auto setCallbacks() -> void
 auto framebuffer_resize_callback(GLFWwindow* window, int width, int height) -> void
 {
     glViewport(0, 0, width, height);
+    window_size.x = width;
+    window_size.y = height;
 }
 
 auto error_callback(int error, const char *description) -> void

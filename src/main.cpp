@@ -22,6 +22,8 @@ GLuint Buffers[NumBuffers];
 
 long long num_vertices;
 
+glm::ivec2 window_size;
+
 Camera cam(glm::vec3(0.0f, 0.0f, 3.0f));
 
 double deltaTime = 0.0;
@@ -80,7 +82,10 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
     program.use();
     program.setUniform("view", cam.genViewMatrix());
-    auto proj = glm::perspective(glm::radians(90.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+    auto proj = glm::perspective(glm::radians(90.0f),
+				 ((float) window_size.x) / ((float)window_size.y),
+				 0.1f,
+				 100.0f);
     program.setUniform("projection", proj);
     auto model = glm::mat4x4(1.0f);
     program.setUniform("model", model);
@@ -98,8 +103,9 @@ auto main(void) -> int
         return 1;
     }
 
-
-    window = glfwCreateWindow(640, 480, "Triangles", NULL, NULL);
+    window_size.x = 640;
+    window_size.y = 480;
+    window = glfwCreateWindow(window_size.x, window_size.y, "Triangles", NULL, NULL);
     glfwSwapInterval(1);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

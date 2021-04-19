@@ -1,3 +1,4 @@
+#include <iostream>
 #include <unordered_map>
 #include <glm/vec3.hpp>
 
@@ -30,7 +31,7 @@ namespace Input {
                 auto direction = cam.dir;
                 direction.y = 0;
                 direction = glm::normalize(direction);
-                cam.move((float) (cam.speed) * (float) deltaTime * direction);
+                cam.move((cam.speed) * (float) deltaTime * direction);
             }
         },
         {
@@ -40,35 +41,52 @@ namespace Input {
                 auto direction = cam.dir;
                 direction.y = 0;
                 direction = glm::normalize(direction);
-                cam.move((float) (-cam.speed) * (float) deltaTime * direction);
+                cam.move((-cam.speed) * (float) deltaTime * direction);
             }
         },
         {
             GLFW_KEY_D,
             []()
             {
-                cam.move((float) (cam.speed) * (float) deltaTime * cam.right);
+                cam.move((cam.speed) * (float) deltaTime * cam.right);
             }
         },
         {
             GLFW_KEY_A,
             []()
             {
-                cam.move((float) (-cam.speed) * (float) deltaTime * cam.right);
+                cam.move((-cam.speed) * (float) deltaTime * cam.right);
             }
         },
         {
             GLFW_KEY_SPACE,
             []()
             {
-                cam.move((float) (cam.speed) * (float) deltaTime * Camera::worldUp);
+                cam.move((cam.speed) * (float) deltaTime * Camera::worldUp);
             }
         },
         {
             GLFW_KEY_LEFT_SHIFT,
             []()
             {
-                cam.move((float) (-cam.speed) * (float) deltaTime * Camera::worldUp);
+                cam.move((-cam.speed) * (float) deltaTime * Camera::worldUp);
+            }
+        },
+        {
+            GLFW_KEY_J,
+            []()
+            {
+                cam.friction_coef -= 0.01f;
+                std::cout << "friction_coef is now " << cam.friction_coef << std::endl;
+
+            }
+        },
+        {
+            GLFW_KEY_K,
+            []()
+            {
+                cam.friction_coef += 0.01f;
+                std::cout << "friction_coef is now " << cam.friction_coef << std::endl;
             }
         }
     };

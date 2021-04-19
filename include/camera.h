@@ -13,20 +13,23 @@ public:
     glm::vec3 up;
     glm::vec3 right;
 
-    glm::vec3 next_pos;
+    glm::vec3 target_dir;
     glm::vec3 pos;
     float yaw;
     float pitch;
     float roll;
     glm::vec3 dir;
 
-    double speed;
+    float speed;
+    float friction_coef;
     double sensitivity;
 
     Camera(glm::vec3 position);
     
     auto translate(glm::vec3 where) -> void;
+
     auto move(glm::vec3 where) -> void;
+    
     auto rotateX(float angle) -> void;
     auto rotateY(float angle) -> void;
     auto rotateZ(float angle) -> void;

@@ -4,7 +4,7 @@ cc="g++"
 std="-std=c++2a"
 idir="-I./include/"
 ldir=""
-libs="-lglfw3 -ldl -lpthread"
+libs="-lglfw -ldl -lpthread"
 exe="game"
 
 cat ./srcfiles.txt | sed 's/\\/\//g' > tmpsrcfilesunix.txt

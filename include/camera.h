@@ -13,14 +13,17 @@ public:
     glm::vec3 up;
     glm::vec3 right;
 
-    glm::vec3 target_dir;
+    glm::vec3 vel;
+    glm::vec3 acc;
     glm::vec3 pos;
+    glm::vec3 prev_pos;
     float yaw;
     float pitch;
     float roll;
     glm::vec3 dir;
 
-    float speed;
+    float acceleration;
+    float max_speed;
     float friction_coef;
     double sensitivity;
 

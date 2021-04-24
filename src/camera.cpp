@@ -12,11 +12,14 @@ extern double deltaTime;
 Camera::Camera(glm::vec3 position)
     : 
         pos(position),
-        target_dir(position),
+        prev_pos(position),
+        vel(position),
+        acc(glm::vec3(0)),
         dir(glm::vec3(0.0f, 0.0f, -1.0f)),
         right(glm::vec3(1.0f, 0.0f, 0.0f)),
         up(glm::cross(right, dir)),
-        speed(20.0f),
+        acceleration(20.0f),
+        max_speed(10.0f),
         sensitivity(10.0),
 	    yaw(0.0f),
 	    pitch(0.0f),
@@ -26,12 +29,12 @@ Camera::Camera(glm::vec3 position)
 
 auto Camera::translate(glm::vec3 where) -> void
 {
-    target_dir = where;
+    vel = where;
 }
 
 auto Camera::move(glm::vec3 where) -> void
 {
-    target_dir += where;
+    vel += where;
 }
 
 auto Camera::rotateX(float angle) -> void
@@ -85,8 +88,26 @@ auto Camera::think() -> void
     up = glm::cross(right, dir);
 
     // position calculation
-    pos += (target_dir - pos)
-                 * friction_coef * (float) deltaTime;
+
+    float speed = glm::length(vel);
+    if (speed < -0.1f || speed > 0.1f) // if its near zero its dangerous to normalize
+    {
+        glm::vec3 normalized = glm::normalize(vel);
+        if (speed > max_speed)
+        {
+            vel = normalized * max_speed;
+        }
+        vel -= normalized * glm::vec3(friction_coef);
+        glm::vec3 tmp_pos = pos;
+        pos += (vel + (pos - prev_pos)) * (float) deltaTime; // kind like a PID controller, but without the integral part (PD controller ?)
+        prev_pos = tmp_pos;
+    }
+        
+    std::cout << "vel " << vel.x * friction_coef << " "
+                             << vel.y * friction_coef << " "
+                             << vel.z * friction_coef << " \t\t\t\t"
+                             << "length \t\t\t" << glm::length(vel) << " "
+                             << "friction_coef " << friction_coef << std::endl;
 }
 
 auto Camera::genViewMatrix() const -> glm::mat4

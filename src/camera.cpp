@@ -102,12 +102,6 @@ auto Camera::think() -> void
         pos += (vel + (pos - prev_pos)) * (float) deltaTime; // kind like a PID controller, but without the integral part (PD controller ?)
         prev_pos = tmp_pos;
     }
-        
-    std::cout << "vel " << vel.x * friction_coef << " "
-                             << vel.y * friction_coef << " "
-                             << vel.z * friction_coef << " \t\t\t\t"
-                             << "length \t\t\t" << glm::length(vel) << " "
-                             << "friction_coef " << friction_coef << std::endl;
 }
 
 auto Camera::genViewMatrix() const -> glm::mat4

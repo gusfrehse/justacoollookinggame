@@ -22,6 +22,7 @@ public:
     auto open(std::string path) -> int;
     auto set_color(glm::vec3 col) -> void;
     auto gen_vao() -> void;
+    auto draw() -> void;
 };
 
 #endif

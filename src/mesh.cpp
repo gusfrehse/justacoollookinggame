@@ -101,3 +101,10 @@ auto Mesh::gen_vao() -> void
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*) (num_vertices * sizeof(glm::vec3)));
     glEnableVertexAttribArray(1);
 }
+
+
+auto Mesh::draw() -> void
+{
+	
+
+}

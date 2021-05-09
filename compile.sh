@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 cc="g++"
 std="-std=c++2a"
 idir="-I./include/"
@@ -12,5 +14,4 @@ source ./tmpsrcfilesunix.txt
 rm ./tmpsrcfilesunix.txt
 
 cmd="$cc -g $std -o $exe $sourcefiles $idir $ldir $libs"
-echo $cmd
 $cmd

@@ -4,11 +4,12 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 #include <GL/gl3w.h>
+#include <glm/mat4x4.hpp>
 
 
 #include "mesh.h"
 
-auto Mesh::open(std::string path) -> int
+Mesh::Mesh(std::string path) : model(glm::mat4x4(1.0f))
 {
     tinyobj::ObjReaderConfig config;
     config.triangulate = true;
@@ -24,7 +25,7 @@ auto Mesh::open(std::string path) -> int
 		{
 			std::cerr << "TinyObjReader error: " << reader.Error();
 		}
-		return -1;
+		return;
     }
 
     if (!reader.Warning().empty())
@@ -53,8 +54,6 @@ auto Mesh::open(std::string path) -> int
 			normals.push_back(normal);
 		}
     }
-
-    return 0;
 }
 
 auto Mesh::set_color(glm::vec3 col) -> void
@@ -74,7 +73,7 @@ auto Mesh::gen_vao() -> void
 {
 
 	auto num_vertices = vertices.size();
-	auto num_normals = vertices.size();
+	auto num_normals = normals.size();
 	glCreateVertexArrays(1, &vao);
 
     // Get the names (video card pointers)
@@ -105,6 +104,8 @@ auto Mesh::gen_vao() -> void
 
 auto Mesh::draw() -> void
 {
-	
+	glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
 
 }

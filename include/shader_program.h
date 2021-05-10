@@ -9,12 +9,13 @@
 
 class ShaderProgram
 {
-    GLuint id;
+    GLuint id = -1;
     bool ok;
     std::unordered_map<GLenum, Shader> shaders;
 
 public:
     ShaderProgram();
+    auto create() -> void;
     auto set(Shader &s) -> void;
     auto log() const -> void;
     auto compile() -> void;

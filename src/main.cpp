@@ -10,50 +10,44 @@
 #include "callbacks.h"
 #include "input.h"
 #include "mesh.h"
+#include "player.h"
 
 GLFWwindow* window;
 
-Mesh mesh;
+ShaderProgram basic_color;
+
+Mesh mesh("assets/gun.obj");
 
 glm::ivec2 window_size;
 
 Camera cam(glm::vec3(0.0f, 0.0f, 3.0f));
 
+Player p;
+
 double deltaTime = 0.0;
 
 auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
-    mesh.open("assets/gun.obj");
     mesh.gen_vao();
 
-    glEnable(GL_DEPTH_TEST);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        
-    program.set(vertex);
-    program.set(fragment);
+    p.gun = &mesh;
+    p.cam = &cam;
 
-    program.compile();
-    program.link();
-    program.log();
-    program.use();
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.411f, 0.411f, 0.411f, 1.0f);
 }
 
 auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    program.use();
-    program.setUniform("view", cam.genViewMatrix());
+    auto view = cam.genViewMatrix();
     auto proj = glm::perspective(glm::radians(90.0f),
 				 ((float) window_size.x) / ((float)window_size.y),
 				 0.1f,
 				 100.0f);
-    program.setUniform("projection", proj);
-    auto model = glm::mat4x4(1.0f);
-    program.setUniform("model", model);
-
-    glBindVertexArray(mesh.vao);
-    glDrawArrays(GL_TRIANGLES, 0, mesh.vertices.size());
+    p.update();
+    p.draw(view, proj);
 }
 
 
@@ -83,11 +77,24 @@ auto main(void) -> int
     
     }
 
+    basic_color.create();
+    Shader basic_color_vert(GL_VERTEX_SHADER, "./src/basic_color.vert");
+    Shader basic_color_frag(GL_FRAGMENT_SHADER, "./src/basic_color.frag");
+    basic_color.set(basic_color_vert);
+    basic_color.set(basic_color_frag);
+    basic_color.compile();
+    basic_color.link();
+    basic_color.log();
+
     ShaderProgram program;
+    program.create();
     Shader vertex(GL_VERTEX_SHADER, "./src/shader.vert");
     Shader fragment(GL_FRAGMENT_SHADER, "./src/shader.frag");
 
     init(program, vertex, fragment);
+
+    
+
 
     auto prevTime = glfwGetTime();
     auto nowTime  = glfwGetTime();

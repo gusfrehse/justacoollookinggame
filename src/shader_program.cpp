@@ -12,8 +12,12 @@
 extern GLFWwindow* window;
 
 ShaderProgram::ShaderProgram()
-    : id(glCreateProgram())
 {}
+
+auto ShaderProgram::create() -> void
+{
+    id = glCreateProgram();
+}
 
 auto ShaderProgram::set(Shader &s) -> void
 {

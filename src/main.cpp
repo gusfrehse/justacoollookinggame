@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cstring>
+#include <glm/gtx/string_cast.hpp>
+
 
 #include "shader_program.h"
 #include "shader.h"

@@ -18,8 +18,8 @@ auto Player::draw(glm::mat4 view, glm::mat4 proj) -> void
 
 auto Player::update() -> void
 {
-    gun_model = glm::translate(
-                    glm::scale(
-                        glm::mat4(1.0f), gun_scale),
-                    gun_offset + (*cam).pos);
+    glm::mat4 gun_rot_mat = glm::mat4(glm::mat3(cam->right, cam->up, cam->dir));
+    // glm::mat4 gun_scale_mat = glm::scale(gun_rot_mat, gun_scale);
+    glm::mat4 gun_translate_mat = glm::translate(gun_rot_mat, gun_offset + cam->pos);//cam->right + cam->pos);
+    gun_model = gun_translate_mat; 
 }

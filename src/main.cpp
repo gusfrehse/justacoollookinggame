@@ -19,6 +19,7 @@ GLFWwindow* window;
 ShaderProgram basic_color;
 
 Mesh mesh("assets/gun.obj");
+Mesh mesh2("assets/gun.obj");
 
 glm::ivec2 window_size;
 
@@ -37,6 +38,9 @@ auto init(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.411f, 0.411f, 0.411f, 1.0f);
+
+    mesh2.gen_vao();
+
 }
 
 auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
@@ -50,6 +54,14 @@ auto display(ShaderProgram &program, Shader &vertex, Shader &fragment) -> void
 				 100.0f);
     p.update();
     p.draw(view, proj);
+
+
+    basic_color.use();
+    basic_color.setUniform("color", glm::vec3(0.85f, 0.1f ,0.75f));
+    basic_color.setUniform("model", glm::mat4(3.0f));
+    basic_color.setUniform("view", view);
+    basic_color.setUniform("projection", proj);
+    mesh2.draw();
 }
 
 

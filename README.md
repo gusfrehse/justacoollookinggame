@@ -1,2 +1,2 @@
 # justacoollookinggame
-Maybe one day, by now just a (really feature lacking) engine. 
+An OpenGL application, render two objects in perspective.
